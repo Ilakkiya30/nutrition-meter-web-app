@@ -1,0 +1,299 @@
+/* =====================================================================
+   File: style.css
+   Why this file exists:
+     Keeps all visual styling separate from HTML structure and JS
+     behavior (separation of concerns). Also handles responsive design
+     so the app looks good on phones, tablets, and desktops.
+   ===================================================================== */
+
+/* ---------------------- CSS VARIABLES ---------------------- */
+/* Defining colors once here means we can change the whole theme
+   by editing just these values. */
+:root {
+    --color-primary: #2e7d32;      /* main green theme color */
+    --color-primary-light: #e8f5e9;
+    --color-danger: #d32f2f;
+    --color-danger-light: #fdecea;
+    --color-text: #222222;
+    --color-muted: #666666;
+    --color-bg: #f4f6f5;
+    --color-card-bg: #ffffff;
+    --radius: 10px;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------------------- RESET / BASE STYLES ---------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* makes width/height calculations predictable */
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.5;
+}
+
+/* ---------------------- HEADER ---------------------- */
+.app-header {
+    background-color: var(--color-primary);
+    color: white;
+    text-align: center;
+    padding: 24px 16px;
+}
+
+.app-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+}
+
+/* ---------------------- LAYOUT CONTAINER ---------------------- */
+/* Centers content and limits max width so it looks good on big screens */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+section {
+    background-color: var(--color-card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+section h2 {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+}
+
+/* ---------------------- WARNING BANNER ---------------------- */
+.warning-banner {
+    background-color: var(--color-danger-light);
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Utility class to hide elements; toggled by JavaScript */
+.hidden {
+    display: none;
+}
+
+/* ---------------------- DASHBOARD SUMMARY CARDS ---------------------- */
+.summary-cards {
+    display: grid;
+    /* Responsive grid: as many columns as fit, each at least 130px wide */
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-label {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.card-unit {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+}
+
+/* Highlight the calories card red when over the limit (class added by JS) */
+.calories-card.over-limit {
+    background-color: var(--color-danger-light);
+}
+.calories-card.over-limit .card-value {
+    color: var(--color-danger);
+}
+
+/* ---------------------- PROGRESS BAR ---------------------- */
+.progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.progress-wrapper label {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+progress {
+    width: 100%;
+    height: 14px;
+    border-radius: 8px;
+}
+
+#progressText {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    align-self: flex-end;
+}
+
+/* ---------------------- FORM STYLES ---------------------- */
+.form-group {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two inputs side by side */
+    gap: 14px;
+}
+
+label {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    color: var(--color-muted);
+}
+
+input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+/* Highlight invalid fields in red (class added by JS) */
+input.invalid {
+    border-color: var(--color-danger);
+}
+
+.error-text {
+    color: var(--color-danger);
+    font-size: 0.8rem;
+    min-height: 16px; /* keeps form layout stable even with no error text */
+}
+
+button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #256428;
+}
+
+button:disabled {
+    background-color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+.form-message {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.form-message.success {
+    color: var(--color-primary);
+}
+
+.form-message.error {
+    color: var(--color-danger);
+}
+
+/* ---------------------- FOOD LIST TABLE ---------------------- */
+.table-wrapper {
+    overflow-x: auto; /* allows horizontal scroll on very small screens */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+th {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.delete-btn {
+    background-color: var(--color-danger);
+    width: auto;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+    background-color: #a32424;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--color-muted);
+    padding: 20px 0;
+}
+
+/* ---------------------- FOOTER ---------------------- */
+.app-footer {
+    text-align: center;
+    padding: 16px;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+}
+
+/* ---------------------- RESPONSIVE DESIGN ---------------------- */
+/* On small screens (phones), stack the two-column form rows into one column */
+@media (max-width: 480px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .app-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .card-value {
+        font-size: 1.4rem;
+    }
+}

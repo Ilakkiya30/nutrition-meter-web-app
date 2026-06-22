@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+  File: index.html
+  Why this file exists:
+    This is the single page of our app. It contains the form to add
+    food, the dashboard summary cards, the warning banner, and the
+    table listing today's food entries. JavaScript (script.js) will
+    fill these elements with live data from the backend API.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <!-- Makes the page responsive on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition Meter</title>
+
+    <!-- Link our stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ============================ HEADER ============================ -->
+    <header class="app-header">
+        <h1>🥗 Nutrition Meter</h1>
+        <p>Track your daily calories, protein, carbs and fat</p>
+    </header>
+
+    <main class="container">
+
+        <!-- ===================== WARNING BANNER ======================== -->
+        <!-- Hidden by default; shown by JavaScript when calories > 2000 -->
+        <div id="warningBanner" class="warning-banner hidden">
+            ⚠️ You have exceeded your daily calorie limit of 2000 kcal!
+        </div>
+
+        <!-- ===================== DASHBOARD SUMMARY ===================== -->
+        <section class="dashboard">
+            <h2>Today's Summary</h2>
+            <div class="summary-cards">
+                <div class="card calories-card">
+                    <span class="card-label">Calories</span>
+                    <span class="card-value" id="totalCalories">0</span>
+                    <span class="card-unit">kcal</span>
+                </div>
+                <div class="card protein-card">
+                    <span class="card-label">Protein</span>
+                    <span class="card-value" id="totalProtein">0</span>
+                    <span class="card-unit">g</span>
+                </div>
+                <div class="card carbs-card">
+                    <span class="card-label">Carbs</span>
+                    <span class="card-value" id="totalCarbs">0</span>
+                    <span class="card-unit">g</span>
+                </div>
+                <div class="card fat-card">
+                    <span class="card-label">Fat</span>
+                    <span class="card-value" id="totalFat">0</span>
+                    <span class="card-unit">g</span>
+                </div>
+            </div>
+
+            <!-- A simple progress bar showing calories vs the 2000 kcal limit -->
+            <div class="progress-wrapper">
+                <label for="calorieProgress">Calorie limit progress</label>
+                <progress id="calorieProgress" value="0" max="2000"></progress>
+                <span id="progressText">0 / 2000 kcal</span>
+            </div>
+        </section>
+
+        <!-- ===================== ADD FOOD FORM ========================== -->
+        <section class="add-food-section">
+            <h2>Add Food Item</h2>
+
+            <!-- We prevent the default form submit in JS so the page
+                 doesn't reload; instead we send data via fetch() -->
+            <form id="foodForm" novalidate>
+
+                <div class="form-group">
+                    <label for="foodName">Food Name</label>
+                    <input
+                        type="text"
+                        id="foodName"
+                        name="foodName"
+                        placeholder="e.g. Banana"
+                        required
+                    />
+                    <span class="error-text" id="foodNameError"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="calories">Calories (kcal)</label>
+                        <input type="number" id="calories" name="calories" min="0" step="0.1" required />
+                        <span class="error-text" id="caloriesError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="protein">Protein (g)</label>
+                        <input type="number" id="protein" name="protein" min="0" step="0.1" required />
+                        <span class="error-text" id="proteinError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="carbs">Carbs (g)</label>
+                        <input type="number" id="carbs" name="carbs" min="0" step="0.1" required />
+                        <span class="error-text" id="carbsError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fat">Fat (g)</label>
+                        <input type="number" id="fat" name="fat" min="0" step="0.1" required />
+                        <span class="error-text" id="fatError"></span>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn">➕ Add Food</button>
+
+                <!-- Shows success/error messages after submitting -->
+                <p id="formMessage" class="form-message"></p>
+            </form>
+        </section>
+
+        <!-- ===================== FOOD LIST TABLE ======================== -->
+        <section class="food-list-section">
+            <h2>Today's Food Log</h2>
+            <div class="table-wrapper">
+                <table id="foodTable">
+                    <thead>
+                        <tr>
+                            <th>Food</th>
+                            <th>Calories</th>
+                            <th>Protein</th>
+                            <th>Carbs</th>
+                            <th>Fat</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <!-- Rows are inserted here dynamically by script.js -->
+                    <tbody id="foodTableBody">
+                    </tbody>
+                </table>
+                <!-- Shown when there are no food entries yet -->
+                <p id="emptyState" class="empty-state hidden">No food logged yet today. Add your first item above!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>Built with Node.js, Express, MySQL &amp; vanilla JavaScript</p>
+    </footer>
+
+    <!-- Our JavaScript file. Placed at the bottom so the HTML loads first -->
+    <script src="script.js"></script>
+</body>
+</html>
